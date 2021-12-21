@@ -6,35 +6,23 @@ import FeedbackOptions from './components/FeedbackOptions/FeedbackOptions';
 import Notification from './components/Notification/Notification';
 
 export default function App() {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-  const feedbacks = { good, neutral, bad };
+  const [feedbacks, setFeedbacks] = useState({ good: 0, neutral: 0, bad: 0 });
+  const { good, neutral, bad } = feedbacks;
 
-  const handleIncrement = name => {
-    switch (name) {
-      case 'good':
-        setGood(good + 1);
-        break;
-      case 'neutral':
-        setNeutral(neutral + 1);
-        break;
-      case 'bad':
-        setBad(bad + 1);
-        break;
-      default:
-        return;
-    }
-  };
+  function handleIncrement(feedback) {
+    setFeedbacks(prev => ({ ...prev, [feedback]: prev[feedback] + 1 }));
+  }
 
-  const countTotalFeedback = () => {
+  function countTotalFeedback() {
     return good + neutral + bad;
-  };
+  }
+
   const total = countTotalFeedback();
 
-  const countPositivePercentageFeedback = () => {
+  function countPositivePercentageFeedback() {
     return good === 0 ? 0 : Math.round((good / (good + neutral + bad)) * 100);
-  };
+  }
+
   const positivePercentage = countPositivePercentageFeedback();
 
   return (
